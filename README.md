@@ -1,14 +1,57 @@
-# [2024-1 오픈소스소프트웨어프로젝트] 8팀 JCL
+# Snap News: AI 뉴스 요약 서비스
 
-### 바쁜 현대인들을 위한 뉴스 요약 서비스 "Snap News"
+네이버 헤드라인 뉴스를 크롤링해 OpenAI API로 두 문장 요약, REST API로 제공하는 웹 서비스
 
-> **이 저장소는 팀 프로젝트의 포크입니다. 정영균(@suipizza)은 백엔드를 맡았습니다.**
-> - 네이버 뉴스 크롤링으로 카테고리별 헤드라인 기사 수집·전처리
-> - GPT API로 기사 본문 요약 기능 구현
-> - Django REST Framework로 요약 뉴스·회원·북마크 API 설계·구현, MongoDB 저장 구조 설계
-> - 프론트엔드·디자인 팀원과 API 명세를 먼저 맞추고 개발
+> 이 저장소는 동국대 오픈소스소프트웨어프로젝트 팀 저장소([CSID-DGU/2024-1-OSSProj-JCL-08](https://github.com/CSID-DGU/2024-1-OSSProj-JCL-08))의 포크입니다. 위쪽은 정영균의 담당 내용 요약, 아래쪽은 팀 README 원본입니다.
 
-<br>
+**포트폴리오**: [suipizza.github.io/projects/snapnews.html](https://suipizza.github.io/projects/snapnews.html)
+
+<img src="Doc/images/서비스흐름도.png" alt="서비스 구성도" width="720">
+
+| 기간 | 형태 | 기술 |
+|---|---|---|
+| 2024 1학기 | 3인 팀, 백엔드와 DB 담당 | Python, Django REST Framework, OpenAI API, BeautifulSoup, MySQL, Amazon RDS, React |
+
+## 문제
+
+- 포털 뉴스는 기사마다 들어가 읽어야 해서 주요 뉴스를 빠르게 훑기 어려움
+
+## 요약 파이프라인 (담당)
+
+- 네이버 뉴스 정치, 경제, 사회 섹션에서 헤드라인 5건씩 크롤링, 본문과 기자, 날짜 추출
+- 본문의 공백, 줄바꿈, 특수문자 정리 후 OpenAI API(gpt-3.5-turbo)에 "한국어 2문장 이내" 요약 요청
+- 카테고리별 REST 엔드포인트로 제목, 요약, 원문 링크, 이미지, 기자, 날짜를 JSON으로 응답
+
+<img src="Doc/images/pipeline.png" alt="요청 처리 흐름: 크롤링, 전처리, OpenAI 요약, REST API" width="820">
+
+## 요약 방식 교체
+
+- 초기의 Gensim 추출 요약은 전체 문장 중 일정 비율만 잘라 내는 방식이라 기사 길이에 따라 요약 품질 차이가 큼
+- OpenAI API로 교체하고 프롬프트로 언어와 길이를 지정해 요약 결과를 일정하게 맞춤
+
+## 회원, 북마크와 DB
+
+- 회원가입, 로그인, 기사 북마크 API 설계와 구현 (사용자별 저장 목록)
+- DB를 로컬 MySQL에서 Amazon RDS로 옮겨 팀원 모두 같은 DB를 쓰도록 구성
+
+## 협업
+
+- 요구사항 정의서와 API 명세서를 먼저 맞춘 뒤 개발
+- GitHub에서 개인 브랜치로 작업하고 PR로 main에 합치는 방식으로 협업
+
+## AI 활용
+
+- 생성형 AI로 코드 작성과 오류 수정
+
+---
+
+<details>
+<summary><b>팀 README 원본 보기</b></summary>
+
+
+## [2024-1 오픈소스소프트웨어프로젝트] 8팀 JCL
+
+#### 바쁜 현대인들을 위한 뉴스 요약 서비스 "Snap News"
 
 ## 👨🏼‍💻 프로젝트 소개
 
@@ -31,11 +74,11 @@
 
 ## 📜 유즈케이스
 
-<img src="Doc\images\유스케이스.png" width="600" height="400"> <br>
+<img src="Doc/images/유스케이스.png" width="600" height="400"> <br>
 
 ## 🎨 시스템 다이어그램
 
-<img src="Doc\images\블록다이어그램.png" width="600" height="400"> <br>
+<img src="Doc/images/블록다이어그램.png" width="600" height="400"> <br>
 
 <br>
     
@@ -126,7 +169,7 @@
 
 ## 이슈 관리
 
-<img src="Doc\images\이슈관리1.png" width="700" height="300">  
+<img src="Doc/images/이슈관리1.png" width="700" height="300">  
 https://github.com/CSID-DGU/2024-1-OSSProj-JCL-08/issues
 
 <br></br>
@@ -144,3 +187,6 @@ https://github.com/CSID-DGU/2024-1-OSSProj-JCL-08/issues
 
 [2022-2-OSSProj-KKJ-5 : URL 요약 정리 및 공유 웹 사이트](https://github.com/CSID-DGU/2022-2-OSSProj-KKJ-5.git)  
  <br>
+
+
+</details>
